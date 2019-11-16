@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:padding="15dp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="22dp"
+        android:gravity="center"
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng ký định vị " />
+
+    <EditText
+        android:inputType="number"
+        android:textSize="18dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/txtMaTruyCap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Mã truy cập" />
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:background="#e1e1e1"
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thoát" />
+
+        <Button
+            android:layout_marginLeft="20dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:background="#00bfff"
+            android:id="@+id/btnDangKy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Đăng Ký" />
+    </LinearLayout>
+</LinearLayout>
