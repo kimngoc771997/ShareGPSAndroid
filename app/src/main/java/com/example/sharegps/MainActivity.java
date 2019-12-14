@@ -27,9 +27,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ArrayList<String> permissions = new ArrayList<>();
     private Button btnGPS;
     private static final int ALL_PERMISSIONS_RESULT = 1011;
+    private DatabaseReference mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +86,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     googleApiClient.connect();
                 }
                 else if (btnGPS.getText().equals("Tắt định vị")) {
+                    final SharedPreferences shareGPS = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    String maTruyCap = shareGPS.getString("maTruyCap", "");
                     btnGPS.setText("Bật định vị");
                     txtdinhvi.setText("Vị trí");
                     googleApiClient.disconnect();
+                    mData.child(maTruyCap).removeValue();
                 }
 
             }
@@ -94,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 dialogDangKy();
             }
         });
+        mData = FirebaseDatabase.getInstance().getReference();
     }
 
     private ArrayList<String> permissionsToRequest(ArrayList<String> wantedPermissions) {
@@ -174,10 +183,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // Permissions ok, we get last location
         location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (btnGPS.getText().equals("Tắt định vị")) {
+            Map<String, Object> childUpdates = new HashMap<>();
+            final SharedPreferences shareGPS = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            String maTruyCap = shareGPS.getString("maTruyCap", "");
             if (location != null) {
                 txtdinhvi.setText("Vĩ độ : " + location.getLatitude() + "\nKinh độ : " + location.getLongitude());
-                Toast toast = Toast.makeText(getApplicationContext(), txtdinhvi.getText().toString(), Toast.LENGTH_SHORT);
-                toast.show();
+                childUpdates.put("id", Integer.parseInt(maTruyCap.substring(3,8)));
+                childUpdates.put("angle", 50);
+                childUpdates.put("idBusInfo", maTruyCap.substring(3,8));
+                childUpdates.put("Latitude", location.getLatitude());
+                childUpdates.put("Longitude", location.getLongitude());
+                if(!childUpdates.isEmpty()){
+                    mData.child(maTruyCap).setValue(childUpdates);
+                }
             }
         }
 
@@ -211,10 +229,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLocationChanged(Location location) {
         if (btnGPS.getText().equals("Tắt định vị")) {
+            Map<String, Object> childUpdates = new HashMap<>();
+            final SharedPreferences shareGPS = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
             if (location != null) {
                 txtdinhvi.setText("Vĩ độ : " + location.getLatitude() + "\nKinh độ : " + location.getLongitude());
-                Toast toast = Toast.makeText(getApplicationContext(), txtdinhvi.getText().toString(), Toast.LENGTH_SHORT);
-                toast.show();
+                childUpdates.put("Latitude", location.getLatitude());
+                childUpdates.put("Longitude", location.getLongitude());
+                if(!childUpdates.isEmpty()){
+                    String maTruyCap = shareGPS.getString("maTruyCap", "");
+                    mData.child(maTruyCap).updateChildren(childUpdates);
+                }
             }
         }
     }

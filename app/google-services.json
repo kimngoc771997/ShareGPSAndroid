@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "262410323493",
+    "firebase_url": "https://busmap-80d51.firebaseio.com",
+    "project_id": "busmap-80d51",
+    "storage_bucket": "busmap-80d51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262410323493:android:a930b64d5358079a4b61cc",
+        "android_client_info": {
+          "package_name": "com.example.sharegps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262410323493-vjnlh2j2ada9s1p1pjkdn75n74mm6b55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQGAa33_jmWvMFJBXz4joR0F6L_RyndK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262410323493-vjnlh2j2ada9s1p1pjkdn75n74mm6b55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
